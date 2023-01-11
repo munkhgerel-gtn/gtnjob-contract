@@ -7,7 +7,7 @@ import {
   LanguageLevel,
   ReqriutmentType,
   SalaryType,
-} from "../../../backend/backend_app/core/dist/client";
+} from "@gtnmugy/core";
 import {
   CompleteJobReferenceList,
   RelatedJobReferenceListModel,

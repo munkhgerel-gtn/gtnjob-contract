@@ -1,5 +1,5 @@
-import * as z from "zod"
-import { UserAction, UserRole } from "../../../backend/backend_app/core/dist/client"
+import * as z from "zod";
+import { UserAction, UserRole } from "@gtnmugy/core";
 
 export const ActionRoleModel = z.object({
   action_role_id: z.string(),
@@ -13,4 +13,4 @@ export const ActionRoleModel = z.object({
   updated_at: z.date(),
   created_by: z.string().nullish(),
   updated_by: z.string().nullish(),
-})
+});

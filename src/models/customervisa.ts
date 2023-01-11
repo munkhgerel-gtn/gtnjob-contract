@@ -1,6 +1,6 @@
-import * as z from "zod"
-import { StatusVisa } from "../../../backend/backend_app/core/dist/client"
-import { CompleteCustomer, RelatedCustomerModel } from "./index"
+import * as z from "zod";
+import { StatusVisa } from "@gtnmugy/core";
+import { CompleteCustomer, RelatedCustomerModel } from "./index";
 
 export const CustomerVisaModel = z.object({
   visa_id: z.string(),
@@ -14,10 +14,11 @@ export const CustomerVisaModel = z.object({
   updated_at: z.date(),
   created_by: z.string().nullish(),
   updated_by: z.string().nullish(),
-})
+});
 
-export interface CompleteCustomerVisa extends z.infer<typeof CustomerVisaModel> {
-  customer: CompleteCustomer
+export interface CompleteCustomerVisa
+  extends z.infer<typeof CustomerVisaModel> {
+  customer: CompleteCustomer;
 }
 
 /**
@@ -25,6 +26,9 @@ export interface CompleteCustomerVisa extends z.infer<typeof CustomerVisaModel> 
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedCustomerVisaModel: z.ZodSchema<CompleteCustomerVisa> = z.lazy(() => CustomerVisaModel.extend({
-  customer: RelatedCustomerModel,
-}))
+export const RelatedCustomerVisaModel: z.ZodSchema<CompleteCustomerVisa> =
+  z.lazy(() =>
+    CustomerVisaModel.extend({
+      customer: RelatedCustomerModel,
+    })
+  );

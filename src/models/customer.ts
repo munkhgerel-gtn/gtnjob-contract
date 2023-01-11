@@ -1,12 +1,33 @@
-import * as z from "zod"
-import { Gender, CustomerStatus } from "../../../backend/backend_app/core/dist/client"
-import { CompleteUser, RelatedUserModel, CompleteCustomerVisa, RelatedCustomerVisaModel, CompleteCustomerJobDetail, RelatedCustomerJobDetailModel, CompleteCustomerEducation, RelatedCustomerEducationModel, CompleteCustomerLanguage, RelatedCustomerLanguageModel, CompleteCustomerQualification, RelatedCustomerQualificationModel, CompleteCustomerWorkHistory, RelatedCustomerWorkHistoryModel, CompleteJobCandidate, RelatedJobCandidateModel, CompleteCustomerDesired, RelatedCustomerDesiredModel } from "./index"
+import * as z from "zod";
+import { Gender, CustomerStatus } from "@gtnmugy/core";
+import {
+  CompleteUser,
+  RelatedUserModel,
+  CompleteCustomerVisa,
+  RelatedCustomerVisaModel,
+  CompleteCustomerJobDetail,
+  RelatedCustomerJobDetailModel,
+  CompleteCustomerEducation,
+  RelatedCustomerEducationModel,
+  CompleteCustomerLanguage,
+  RelatedCustomerLanguageModel,
+  CompleteCustomerQualification,
+  RelatedCustomerQualificationModel,
+  CompleteCustomerWorkHistory,
+  RelatedCustomerWorkHistoryModel,
+  CompleteJobCandidate,
+  RelatedJobCandidateModel,
+  CompleteCustomerDesired,
+  RelatedCustomerDesiredModel,
+} from "./index";
 
 // Helper schema for JSON fields
-type Literal = boolean | number | string
-type Json = Literal | { [key: string]: Json } | Json[]
-const literalSchema = z.union([z.string(), z.number(), z.boolean()])
-const jsonSchema: z.ZodSchema<Json> = z.lazy(() => z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)]))
+type Literal = boolean | number | string;
+type Json = Literal | { [key: string]: Json } | Json[];
+const literalSchema = z.union([z.string(), z.number(), z.boolean()]);
+const jsonSchema: z.ZodSchema<Json> = z.lazy(() =>
+  z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)])
+);
 
 export const CustomerModel = z.object({
   customer_id: z.string(),
@@ -40,18 +61,18 @@ export const CustomerModel = z.object({
   updated_at: z.date(),
   created_by: z.string().nullish(),
   updated_by: z.string().nullish(),
-})
+});
 
 export interface CompleteCustomer extends z.infer<typeof CustomerModel> {
-  user?: CompleteUser | null
-  customer_visas: CompleteCustomerVisa[]
-  customer_jobdetails: CompleteCustomerJobDetail[]
-  customer_educations: CompleteCustomerEducation[]
-  customer_languages: CompleteCustomerLanguage[]
-  customer_qualifications: CompleteCustomerQualification[]
-  customer_workhistories: CompleteCustomerWorkHistory[]
-  job_candidates: CompleteJobCandidate[]
-  customer_desired: CompleteCustomerDesired[]
+  user?: CompleteUser | null;
+  customer_visas: CompleteCustomerVisa[];
+  customer_jobdetails: CompleteCustomerJobDetail[];
+  customer_educations: CompleteCustomerEducation[];
+  customer_languages: CompleteCustomerLanguage[];
+  customer_qualifications: CompleteCustomerQualification[];
+  customer_workhistories: CompleteCustomerWorkHistory[];
+  job_candidates: CompleteJobCandidate[];
+  customer_desired: CompleteCustomerDesired[];
 }
 
 /**
@@ -59,14 +80,16 @@ export interface CompleteCustomer extends z.infer<typeof CustomerModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedCustomerModel: z.ZodSchema<CompleteCustomer> = z.lazy(() => CustomerModel.extend({
-  user: RelatedUserModel.nullish(),
-  customer_visas: RelatedCustomerVisaModel.array(),
-  customer_jobdetails: RelatedCustomerJobDetailModel.array(),
-  customer_educations: RelatedCustomerEducationModel.array(),
-  customer_languages: RelatedCustomerLanguageModel.array(),
-  customer_qualifications: RelatedCustomerQualificationModel.array(),
-  customer_workhistories: RelatedCustomerWorkHistoryModel.array(),
-  job_candidates: RelatedJobCandidateModel.array(),
-  customer_desired: RelatedCustomerDesiredModel.array(),
-}))
+export const RelatedCustomerModel: z.ZodSchema<CompleteCustomer> = z.lazy(() =>
+  CustomerModel.extend({
+    user: RelatedUserModel.nullish(),
+    customer_visas: RelatedCustomerVisaModel.array(),
+    customer_jobdetails: RelatedCustomerJobDetailModel.array(),
+    customer_educations: RelatedCustomerEducationModel.array(),
+    customer_languages: RelatedCustomerLanguageModel.array(),
+    customer_qualifications: RelatedCustomerQualificationModel.array(),
+    customer_workhistories: RelatedCustomerWorkHistoryModel.array(),
+    job_candidates: RelatedJobCandidateModel.array(),
+    customer_desired: RelatedCustomerDesiredModel.array(),
+  })
+);

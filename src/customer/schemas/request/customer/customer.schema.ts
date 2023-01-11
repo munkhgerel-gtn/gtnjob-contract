@@ -23,12 +23,7 @@ export const CreateCustomerSchema = CustomerModel.omit({
   customer_qualifications: true,
   customer_desired: true,
   job_candidates: true,
-}).required({
-  first_name: true,
-  last_name: true,
-  first_name_kana: true,
-  last_name_kana: true,
-});
+}).required();
 export type CreateCustomerSchema = z.infer<typeof CreateCustomerSchema>;
 
 // => UPDATE

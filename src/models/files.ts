@@ -1,5 +1,5 @@
-import * as z from "zod"
-import { FileType, FileSource } from "../../../backend/backend_app/core/dist/client"
+import * as z from "zod";
+import { FileType, FileSource } from "@gtnmugy/core";
 
 export const FilesModel = z.object({
   file_id: z.string(),
@@ -10,4 +10,4 @@ export const FilesModel = z.object({
   fiel_source: z.nativeEnum(FileSource),
   created_at: z.date(),
   created_by: z.string(),
-})
+});

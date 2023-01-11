@@ -1,1 +1,1 @@
-export { SimpleJobResponseSchema, JobSearchResponseSchema, JobOneSchema, } from "./search.schema";
+export { JobSchema, JobSearchSchema, JobDetailSchema } from "./search.schema";

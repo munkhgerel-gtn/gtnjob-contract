@@ -1,6 +1,11 @@
-import * as z from "zod"
-import { InquiryStatus } from "../../../backend/backend_app/core/dist/client"
-import { CompleteUser, RelatedUserModel, CompleteEntity, RelatedEntityModel } from "./index"
+import * as z from "zod";
+import { InquiryStatus } from "@gtnmugy/core";
+import {
+  CompleteUser,
+  RelatedUserModel,
+  CompleteEntity,
+  RelatedEntityModel,
+} from "./index";
 
 export const InquiryModel = z.object({
   inquire_id: z.string(),
@@ -16,12 +21,12 @@ export const InquiryModel = z.object({
   created_at: z.date(),
   updated_at: z.date(),
   created_by: z.string().nullish(),
-})
+});
 
 export interface CompleteInquiry extends z.infer<typeof InquiryModel> {
-  fromuser?: CompleteUser | null
-  entity?: CompleteEntity | null
-  assignUser?: CompleteUser | null
+  fromuser?: CompleteUser | null;
+  entity?: CompleteEntity | null;
+  assignUser?: CompleteUser | null;
 }
 
 /**
@@ -29,8 +34,10 @@ export interface CompleteInquiry extends z.infer<typeof InquiryModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedInquiryModel: z.ZodSchema<CompleteInquiry> = z.lazy(() => InquiryModel.extend({
-  fromuser: RelatedUserModel.nullish(),
-  entity: RelatedEntityModel.nullish(),
-  assignUser: RelatedUserModel.nullish(),
-}))
+export const RelatedInquiryModel: z.ZodSchema<CompleteInquiry> = z.lazy(() =>
+  InquiryModel.extend({
+    fromuser: RelatedUserModel.nullish(),
+    entity: RelatedEntityModel.nullish(),
+    assignUser: RelatedUserModel.nullish(),
+  })
+);

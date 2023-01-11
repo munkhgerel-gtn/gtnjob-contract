@@ -1,1 +1,1 @@
-export { JobSortingRequestSchema, JobQueryRequestSchema, } from "./job_query.schema";
+export { JobSortingSchema, JobQuerySchema } from "./job_query.schema";

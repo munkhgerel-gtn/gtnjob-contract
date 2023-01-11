@@ -1,12 +1,14 @@
-import * as z from "zod"
-import { JobPosition } from "../../../backend/backend_app/core/dist/client"
-import { CompleteCustomer, RelatedCustomerModel } from "./index"
+import * as z from "zod";
+import { JobPosition } from "@gtnmugy/core";
+import { CompleteCustomer, RelatedCustomerModel } from "./index";
 
 // Helper schema for JSON fields
-type Literal = boolean | number | string
-type Json = Literal | { [key: string]: Json } | Json[]
-const literalSchema = z.union([z.string(), z.number(), z.boolean()])
-const jsonSchema: z.ZodSchema<Json> = z.lazy(() => z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)]))
+type Literal = boolean | number | string;
+type Json = Literal | { [key: string]: Json } | Json[];
+const literalSchema = z.union([z.string(), z.number(), z.boolean()]);
+const jsonSchema: z.ZodSchema<Json> = z.lazy(() =>
+  z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)])
+);
 
 export const CustomerWorkHistoryModel = z.object({
   workhistory_id: z.string(),
@@ -25,10 +27,11 @@ export const CustomerWorkHistoryModel = z.object({
   updated_at: z.date(),
   created_by: z.string().nullish(),
   updated_by: z.string().nullish(),
-})
+});
 
-export interface CompleteCustomerWorkHistory extends z.infer<typeof CustomerWorkHistoryModel> {
-  customer: CompleteCustomer
+export interface CompleteCustomerWorkHistory
+  extends z.infer<typeof CustomerWorkHistoryModel> {
+  customer: CompleteCustomer;
 }
 
 /**
@@ -36,6 +39,9 @@ export interface CompleteCustomerWorkHistory extends z.infer<typeof CustomerWork
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedCustomerWorkHistoryModel: z.ZodSchema<CompleteCustomerWorkHistory> = z.lazy(() => CustomerWorkHistoryModel.extend({
-  customer: RelatedCustomerModel,
-}))
+export const RelatedCustomerWorkHistoryModel: z.ZodSchema<CompleteCustomerWorkHistory> =
+  z.lazy(() =>
+    CustomerWorkHistoryModel.extend({
+      customer: RelatedCustomerModel,
+    })
+  );

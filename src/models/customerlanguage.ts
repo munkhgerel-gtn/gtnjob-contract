@@ -1,12 +1,14 @@
-import * as z from "zod"
-import { LanguageLevel } from "../../../backend/backend_app/core/dist/client"
-import { CompleteCustomer, RelatedCustomerModel } from "./index"
+import * as z from "zod";
+import { LanguageLevel } from "@gtnmugy/core";
+import { CompleteCustomer, RelatedCustomerModel } from "./index";
 
 // Helper schema for JSON fields
-type Literal = boolean | number | string
-type Json = Literal | { [key: string]: Json } | Json[]
-const literalSchema = z.union([z.string(), z.number(), z.boolean()])
-const jsonSchema: z.ZodSchema<Json> = z.lazy(() => z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)]))
+type Literal = boolean | number | string;
+type Json = Literal | { [key: string]: Json } | Json[];
+const literalSchema = z.union([z.string(), z.number(), z.boolean()]);
+const jsonSchema: z.ZodSchema<Json> = z.lazy(() =>
+  z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)])
+);
 
 export const CustomerLanguageModel = z.object({
   language_id: z.string(),
@@ -19,10 +21,11 @@ export const CustomerLanguageModel = z.object({
   updated_at: z.date().nullish(),
   created_by: z.string().nullish(),
   updated_b: z.string().nullish(),
-})
+});
 
-export interface CompleteCustomerLanguage extends z.infer<typeof CustomerLanguageModel> {
-  customer: CompleteCustomer
+export interface CompleteCustomerLanguage
+  extends z.infer<typeof CustomerLanguageModel> {
+  customer: CompleteCustomer;
 }
 
 /**
@@ -30,6 +33,9 @@ export interface CompleteCustomerLanguage extends z.infer<typeof CustomerLanguag
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedCustomerLanguageModel: z.ZodSchema<CompleteCustomerLanguage> = z.lazy(() => CustomerLanguageModel.extend({
-  customer: RelatedCustomerModel,
-}))
+export const RelatedCustomerLanguageModel: z.ZodSchema<CompleteCustomerLanguage> =
+  z.lazy(() =>
+    CustomerLanguageModel.extend({
+      customer: RelatedCustomerModel,
+    })
+  );

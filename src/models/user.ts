@@ -1,12 +1,25 @@
-import * as z from "zod"
-import { UserRole, UserStatus } from "../../../backend/backend_app/core/dist/client"
-import { CompleteCustomer, RelatedCustomerModel, CompleteLogger, RelatedLoggerModel, CompleteInquiry, RelatedInquiryModel, CompleteNotification, RelatedNotificationModel, CompleteScoutFav, RelatedScoutFavModel } from "./index"
+import * as z from "zod";
+import { UserRole, UserStatus } from "@gtnmugy/core";
+import {
+  CompleteCustomer,
+  RelatedCustomerModel,
+  CompleteLogger,
+  RelatedLoggerModel,
+  CompleteInquiry,
+  RelatedInquiryModel,
+  CompleteNotification,
+  RelatedNotificationModel,
+  CompleteScoutFav,
+  RelatedScoutFavModel,
+} from "./index";
 
 // Helper schema for JSON fields
-type Literal = boolean | number | string
-type Json = Literal | { [key: string]: Json } | Json[]
-const literalSchema = z.union([z.string(), z.number(), z.boolean()])
-const jsonSchema: z.ZodSchema<Json> = z.lazy(() => z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)]))
+type Literal = boolean | number | string;
+type Json = Literal | { [key: string]: Json } | Json[];
+const literalSchema = z.union([z.string(), z.number(), z.boolean()]);
+const jsonSchema: z.ZodSchema<Json> = z.lazy(() =>
+  z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)])
+);
 
 export const UserModel = z.object({
   user_id: z.string(),
@@ -26,15 +39,15 @@ export const UserModel = z.object({
   updated_at: z.date(),
   deleted_at: z.date().nullish(),
   favs: jsonSchema,
-})
+});
 
 export interface CompleteUser extends z.infer<typeof UserModel> {
-  Customer?: CompleteCustomer | null
-  loggers: CompleteLogger[]
-  from_inquiries: CompleteInquiry[]
-  assign_inquiries: CompleteInquiry[]
-  notifications: CompleteNotification[]
-  ScoutFav: CompleteScoutFav[]
+  Customer?: CompleteCustomer | null;
+  loggers: CompleteLogger[];
+  from_inquiries: CompleteInquiry[];
+  assign_inquiries: CompleteInquiry[];
+  notifications: CompleteNotification[];
+  ScoutFav: CompleteScoutFav[];
 }
 
 /**
@@ -42,11 +55,13 @@ export interface CompleteUser extends z.infer<typeof UserModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedUserModel: z.ZodSchema<CompleteUser> = z.lazy(() => UserModel.extend({
-  Customer: RelatedCustomerModel.nullish(),
-  loggers: RelatedLoggerModel.array(),
-  from_inquiries: RelatedInquiryModel.array(),
-  assign_inquiries: RelatedInquiryModel.array(),
-  notifications: RelatedNotificationModel.array(),
-  ScoutFav: RelatedScoutFavModel.array(),
-}))
+export const RelatedUserModel: z.ZodSchema<CompleteUser> = z.lazy(() =>
+  UserModel.extend({
+    Customer: RelatedCustomerModel.nullish(),
+    loggers: RelatedLoggerModel.array(),
+    from_inquiries: RelatedInquiryModel.array(),
+    assign_inquiries: RelatedInquiryModel.array(),
+    notifications: RelatedNotificationModel.array(),
+    ScoutFav: RelatedScoutFavModel.array(),
+  })
+);

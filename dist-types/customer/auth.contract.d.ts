@@ -3,34 +3,10 @@ export declare const auth: {
     login: {
         method: "POST";
         path: string;
-        body: z.ZodObject<Pick<{
-            user_id: z.ZodString;
-            created_at: z.ZodEffects<z.ZodString, string, string>;
-            updated_at: z.ZodEffects<z.ZodString, string, string>;
+        body: z.ZodObject<{
             email: z.ZodString;
-            name: z.ZodString;
-            role: z.ZodNativeEnum<{
-                no_data: "no_data";
-                gtn_super_admin: "gtn_super_admin";
-                gtn_admin: "gtn_admin";
-                company_super_admin: "company_super_admin";
-                company_admin: "company_admin";
-                company_user: "company_user";
-                job_seeker: "job_seeker";
-            }>;
-            company_id: z.ZodNumber;
-            deleted_at: z.ZodEffects<z.ZodString, string, string>;
-            customer_id: z.ZodString;
-            user_status: z.ZodNativeEnum<{
-                active: "active";
-                inactive_waitverify: "inactive_waitverify";
-                inactive_changepass: "inactive_changepass";
-                suspended_attempt: "suspended_attempt";
-                suspended_admin: "suspended_admin";
-                deleted: "deleted";
-            }>;
             password_hash: z.ZodString;
-        }, "email" | "password_hash">, "strip", z.ZodTypeAny, {
+        }, "strip", z.ZodTypeAny, {
             email: string;
             password_hash: string;
         }, {
@@ -38,13 +14,13 @@ export declare const auth: {
             password_hash: string;
         }>;
         responses: {
-            200: {
-                user: z.ZodObject<{
+            200: z.ZodObject<{
+                user: z.ZodObject<Pick<{
                     user_id: z.ZodString;
-                    created_at: z.ZodEffects<z.ZodString, string, string>;
-                    updated_at: z.ZodEffects<z.ZodString, string, string>;
                     email: z.ZodString;
-                    name: z.ZodString;
+                    mobile: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+                    name: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+                    password_hash: z.ZodString;
                     role: z.ZodNativeEnum<{
                         no_data: "no_data";
                         gtn_super_admin: "gtn_super_admin";
@@ -55,8 +31,11 @@ export declare const auth: {
                         job_seeker: "job_seeker";
                     }>;
                     company_id: z.ZodNumber;
-                    deleted_at: z.ZodEffects<z.ZodString, string, string>;
-                    customer_id: z.ZodString;
+                    customer_id: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+                    attemptpass_count: z.ZodNullable<z.ZodOptional<z.ZodNumber>>;
+                    reset_code: z.ZodString;
+                    is_emailverified: z.ZodBoolean;
+                    is_mobileverified: z.ZodBoolean;
                     user_status: z.ZodNativeEnum<{
                         active: "active";
                         inactive_waitverify: "inactive_waitverify";
@@ -65,45 +44,51 @@ export declare const auth: {
                         suspended_admin: "suspended_admin";
                         deleted: "deleted";
                     }>;
-                    password_hash: z.ZodString;
-                }, "strip", z.ZodTypeAny, {
-                    created_at: string;
-                    user_id: string;
-                    updated_at: string;
-                    email: string;
-                    name: string;
+                    created_at: z.ZodDate;
+                    updated_at: z.ZodDate;
+                    deleted_at: z.ZodNullable<z.ZodOptional<z.ZodDate>>;
+                    favs: z.ZodType<(string | number | boolean) | {
+                        [key: string]: (string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | any)[])[])[])[])[])[])[])[])[])[])[];
+                    } | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | any)[])[])[])[])[])[])[])[])[])[])[], z.ZodTypeDef, (string | number | boolean) | {
+                        [key: string]: (string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | any)[])[])[])[])[])[])[])[])[])[])[];
+                    } | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | any)[])[])[])[])[])[])[])[])[])[])[]>;
+                }, "role" | "email" | "user_id" | "name" | "user_status">, "strip", z.ZodTypeAny, {
+                    name?: string | null | undefined;
                     role: "no_data" | "gtn_super_admin" | "gtn_admin" | "company_super_admin" | "company_admin" | "company_user" | "job_seeker";
-                    company_id: number;
-                    deleted_at: string;
-                    customer_id: string;
+                    email: string;
+                    user_id: string;
                     user_status: "active" | "inactive_waitverify" | "inactive_changepass" | "suspended_attempt" | "suspended_admin" | "deleted";
-                    password_hash: string;
                 }, {
-                    created_at: string;
-                    user_id: string;
-                    updated_at: string;
-                    email: string;
-                    name: string;
+                    name?: string | null | undefined;
                     role: "no_data" | "gtn_super_admin" | "gtn_admin" | "company_super_admin" | "company_admin" | "company_user" | "job_seeker";
-                    company_id: number;
-                    deleted_at: string;
-                    customer_id: string;
+                    email: string;
+                    user_id: string;
                     user_status: "active" | "inactive_waitverify" | "inactive_changepass" | "suspended_attempt" | "suspended_admin" | "deleted";
-                    password_hash: string;
                 }>;
                 message: z.ZodString;
                 accessToken: z.ZodString;
-            };
-            401: z.ZodObject<{
-                statusCode: z.ZodNumber;
-                message: z.ZodString;
             }, "strip", z.ZodTypeAny, {
                 message: string;
-                statusCode: number;
+                user: {
+                    name?: string | null | undefined;
+                    role: "no_data" | "gtn_super_admin" | "gtn_admin" | "company_super_admin" | "company_admin" | "company_user" | "job_seeker";
+                    email: string;
+                    user_id: string;
+                    user_status: "active" | "inactive_waitverify" | "inactive_changepass" | "suspended_attempt" | "suspended_admin" | "deleted";
+                };
+                accessToken: string;
             }, {
                 message: string;
-                statusCode: number;
+                user: {
+                    name?: string | null | undefined;
+                    role: "no_data" | "gtn_super_admin" | "gtn_admin" | "company_super_admin" | "company_admin" | "company_user" | "job_seeker";
+                    email: string;
+                    user_id: string;
+                    user_status: "active" | "inactive_waitverify" | "inactive_changepass" | "suspended_attempt" | "suspended_admin" | "deleted";
+                };
+                accessToken: string;
             }>;
+            401: z.ZodString;
         };
         summary: string;
         description: string;
@@ -111,52 +96,27 @@ export declare const auth: {
     register: {
         method: "POST";
         path: string;
-        body: z.ZodObject<Pick<{
-            user_id: z.ZodString;
-            created_at: z.ZodEffects<z.ZodString, string, string>;
-            updated_at: z.ZodEffects<z.ZodString, string, string>;
+        body: z.ZodObject<{
             email: z.ZodString;
-            name: z.ZodString;
-            role: z.ZodNativeEnum<{
-                no_data: "no_data";
-                gtn_super_admin: "gtn_super_admin";
-                gtn_admin: "gtn_admin";
-                company_super_admin: "company_super_admin";
-                company_admin: "company_admin";
-                company_user: "company_user";
-                job_seeker: "job_seeker";
-            }>;
-            company_id: z.ZodNumber;
-            deleted_at: z.ZodEffects<z.ZodString, string, string>;
-            customer_id: z.ZodString;
-            user_status: z.ZodNativeEnum<{
-                active: "active";
-                inactive_waitverify: "inactive_waitverify";
-                inactive_changepass: "inactive_changepass";
-                suspended_attempt: "suspended_attempt";
-                suspended_admin: "suspended_admin";
-                deleted: "deleted";
-            }>;
+            name: z.ZodNullable<z.ZodOptional<z.ZodString>>;
             password_hash: z.ZodString;
-        }, "email" | "name" | "role" | "password_hash">, "strip", z.ZodTypeAny, {
+        }, "strip", z.ZodTypeAny, {
+            name?: string | null | undefined;
             email: string;
-            name: string;
-            role: "no_data" | "gtn_super_admin" | "gtn_admin" | "company_super_admin" | "company_admin" | "company_user" | "job_seeker";
             password_hash: string;
         }, {
+            name?: string | null | undefined;
             email: string;
-            name: string;
-            role: "no_data" | "gtn_super_admin" | "gtn_admin" | "company_super_admin" | "company_admin" | "company_user" | "job_seeker";
             password_hash: string;
         }>;
         responses: {
-            200: {
-                user: z.ZodObject<{
+            200: z.ZodObject<{
+                user: z.ZodObject<Pick<{
                     user_id: z.ZodString;
-                    created_at: z.ZodEffects<z.ZodString, string, string>;
-                    updated_at: z.ZodEffects<z.ZodString, string, string>;
                     email: z.ZodString;
-                    name: z.ZodString;
+                    mobile: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+                    name: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+                    password_hash: z.ZodString;
                     role: z.ZodNativeEnum<{
                         no_data: "no_data";
                         gtn_super_admin: "gtn_super_admin";
@@ -167,8 +127,11 @@ export declare const auth: {
                         job_seeker: "job_seeker";
                     }>;
                     company_id: z.ZodNumber;
-                    deleted_at: z.ZodEffects<z.ZodString, string, string>;
-                    customer_id: z.ZodString;
+                    customer_id: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+                    attemptpass_count: z.ZodNullable<z.ZodOptional<z.ZodNumber>>;
+                    reset_code: z.ZodString;
+                    is_emailverified: z.ZodBoolean;
+                    is_mobileverified: z.ZodBoolean;
                     user_status: z.ZodNativeEnum<{
                         active: "active";
                         inactive_waitverify: "inactive_waitverify";
@@ -177,45 +140,51 @@ export declare const auth: {
                         suspended_admin: "suspended_admin";
                         deleted: "deleted";
                     }>;
-                    password_hash: z.ZodString;
-                }, "strip", z.ZodTypeAny, {
-                    created_at: string;
-                    user_id: string;
-                    updated_at: string;
-                    email: string;
-                    name: string;
+                    created_at: z.ZodDate;
+                    updated_at: z.ZodDate;
+                    deleted_at: z.ZodNullable<z.ZodOptional<z.ZodDate>>;
+                    favs: z.ZodType<(string | number | boolean) | {
+                        [key: string]: (string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | any)[])[])[])[])[])[])[])[])[])[])[];
+                    } | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | any)[])[])[])[])[])[])[])[])[])[])[], z.ZodTypeDef, (string | number | boolean) | {
+                        [key: string]: (string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | any)[])[])[])[])[])[])[])[])[])[])[];
+                    } | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | any)[])[])[])[])[])[])[])[])[])[])[]>;
+                }, "role" | "email" | "user_id" | "name" | "user_status">, "strip", z.ZodTypeAny, {
+                    name?: string | null | undefined;
                     role: "no_data" | "gtn_super_admin" | "gtn_admin" | "company_super_admin" | "company_admin" | "company_user" | "job_seeker";
-                    company_id: number;
-                    deleted_at: string;
-                    customer_id: string;
+                    email: string;
+                    user_id: string;
                     user_status: "active" | "inactive_waitverify" | "inactive_changepass" | "suspended_attempt" | "suspended_admin" | "deleted";
-                    password_hash: string;
                 }, {
-                    created_at: string;
-                    user_id: string;
-                    updated_at: string;
-                    email: string;
-                    name: string;
+                    name?: string | null | undefined;
                     role: "no_data" | "gtn_super_admin" | "gtn_admin" | "company_super_admin" | "company_admin" | "company_user" | "job_seeker";
-                    company_id: number;
-                    deleted_at: string;
-                    customer_id: string;
+                    email: string;
+                    user_id: string;
                     user_status: "active" | "inactive_waitverify" | "inactive_changepass" | "suspended_attempt" | "suspended_admin" | "deleted";
-                    password_hash: string;
                 }>;
                 message: z.ZodString;
                 accessToken: z.ZodString;
-            };
-            400: z.ZodObject<{
-                statusCode: z.ZodNumber;
-                message: z.ZodString;
             }, "strip", z.ZodTypeAny, {
                 message: string;
-                statusCode: number;
+                user: {
+                    name?: string | null | undefined;
+                    role: "no_data" | "gtn_super_admin" | "gtn_admin" | "company_super_admin" | "company_admin" | "company_user" | "job_seeker";
+                    email: string;
+                    user_id: string;
+                    user_status: "active" | "inactive_waitverify" | "inactive_changepass" | "suspended_attempt" | "suspended_admin" | "deleted";
+                };
+                accessToken: string;
             }, {
                 message: string;
-                statusCode: number;
+                user: {
+                    name?: string | null | undefined;
+                    role: "no_data" | "gtn_super_admin" | "gtn_admin" | "company_super_admin" | "company_admin" | "company_user" | "job_seeker";
+                    email: string;
+                    user_id: string;
+                    user_status: "active" | "inactive_waitverify" | "inactive_changepass" | "suspended_attempt" | "suspended_admin" | "deleted";
+                };
+                accessToken: string;
             }>;
+            400: z.ZodString;
         };
         summary: string;
         description: string;
@@ -224,12 +193,12 @@ export declare const auth: {
         method: "GET";
         path: string;
         responses: {
-            200: z.ZodObject<{
+            200: z.ZodObject<Omit<{
                 user_id: z.ZodString;
-                created_at: z.ZodEffects<z.ZodString, string, string>;
-                updated_at: z.ZodEffects<z.ZodString, string, string>;
                 email: z.ZodString;
-                name: z.ZodString;
+                mobile: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+                name: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+                password_hash: z.ZodString;
                 role: z.ZodNativeEnum<{
                     no_data: "no_data";
                     gtn_super_admin: "gtn_super_admin";
@@ -240,8 +209,11 @@ export declare const auth: {
                     job_seeker: "job_seeker";
                 }>;
                 company_id: z.ZodNumber;
-                deleted_at: z.ZodEffects<z.ZodString, string, string>;
-                customer_id: z.ZodString;
+                customer_id: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+                attemptpass_count: z.ZodNullable<z.ZodOptional<z.ZodNumber>>;
+                reset_code: z.ZodString;
+                is_emailverified: z.ZodBoolean;
+                is_mobileverified: z.ZodBoolean;
                 user_status: z.ZodNativeEnum<{
                     active: "active";
                     inactive_waitverify: "inactive_waitverify";
@@ -250,31 +222,52 @@ export declare const auth: {
                     suspended_admin: "suspended_admin";
                     deleted: "deleted";
                 }>;
-                password_hash: z.ZodString;
-            }, "strip", z.ZodTypeAny, {
-                created_at: string;
-                user_id: string;
-                updated_at: string;
-                email: string;
-                name: string;
+                created_at: z.ZodDate;
+                updated_at: z.ZodDate;
+                deleted_at: z.ZodNullable<z.ZodOptional<z.ZodDate>>;
+                favs: z.ZodType<(string | number | boolean) | {
+                    [key: string]: (string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | any)[])[])[])[])[])[])[])[])[])[])[];
+                } | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | any)[])[])[])[])[])[])[])[])[])[])[], z.ZodTypeDef, (string | number | boolean) | {
+                    [key: string]: (string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | any)[])[])[])[])[])[])[])[])[])[])[];
+                } | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | any)[])[])[])[])[])[])[])[])[])[])[]>;
+            }, "password_hash">, "strip", z.ZodTypeAny, {
+                customer_id?: string | null | undefined;
+                mobile?: string | null | undefined;
+                name?: string | null | undefined;
+                attemptpass_count?: number | null | undefined;
+                deleted_at?: Date | null | undefined;
                 role: "no_data" | "gtn_super_admin" | "gtn_admin" | "company_super_admin" | "company_admin" | "company_user" | "job_seeker";
+                created_at: Date;
+                updated_at: Date;
+                email: string;
+                user_id: string;
                 company_id: number;
-                deleted_at: string;
-                customer_id: string;
+                reset_code: string;
+                is_emailverified: boolean;
+                is_mobileverified: boolean;
                 user_status: "active" | "inactive_waitverify" | "inactive_changepass" | "suspended_attempt" | "suspended_admin" | "deleted";
-                password_hash: string;
+                favs: (string | number | boolean) | {
+                    [key: string]: (string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | any)[])[])[])[])[])[])[])[])[])[])[];
+                } | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | any)[])[])[])[])[])[])[])[])[])[])[];
             }, {
-                created_at: string;
-                user_id: string;
-                updated_at: string;
-                email: string;
-                name: string;
+                customer_id?: string | null | undefined;
+                mobile?: string | null | undefined;
+                name?: string | null | undefined;
+                attemptpass_count?: number | null | undefined;
+                deleted_at?: Date | null | undefined;
                 role: "no_data" | "gtn_super_admin" | "gtn_admin" | "company_super_admin" | "company_admin" | "company_user" | "job_seeker";
+                created_at: Date;
+                updated_at: Date;
+                email: string;
+                user_id: string;
                 company_id: number;
-                deleted_at: string;
-                customer_id: string;
+                reset_code: string;
+                is_emailverified: boolean;
+                is_mobileverified: boolean;
                 user_status: "active" | "inactive_waitverify" | "inactive_changepass" | "suspended_attempt" | "suspended_admin" | "deleted";
-                password_hash: string;
+                favs: (string | number | boolean) | {
+                    [key: string]: (string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | any)[])[])[])[])[])[])[])[])[])[])[];
+                } | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | ((string | number | boolean) | any | any)[])[])[])[])[])[])[])[])[])[])[];
             }>;
         };
         summary: string;
