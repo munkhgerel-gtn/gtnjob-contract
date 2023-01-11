@@ -1,0 +1,49 @@
+{
+  "name": "@gtnjob/contract",
+  "version": "1.2.8",
+  "description": "GTN-job api contract",
+  "main": "dist/contract.js",
+  "types": "dist-types/contract.d.ts",
+  "scripts": {
+    "clean": "rm -rf dist dist-types",
+    "compile": "tsc",
+    "test": "npm run clean && npm run build"
+  },
+  "exports": {
+    ".": "./dist/contract.js",
+    "./schemas": "./dist/schemas/index.js",
+    "./customer": "./dist/customer/index.js",
+    "./customer/schemas": "./dist/customer/schemas/index.js"
+  },
+  "typesVersions": {
+    "*": {
+      "schemas": [
+        "dist-types/schemas"
+      ],
+      "customer": [
+        "dist-types/customer"
+      ],
+      "customer/schemas": [
+        "dist-types/customer/schemas"
+      ]
+    }
+  },
+  "files": [
+    "dist",
+    "dist-types"
+  ],
+  "author": "GTN",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/validator": "^13.7.10",
+    "install-peers": "^1.0.4",
+    "typescript": "^4.1.3"
+  },
+  "dependencies": {
+    "validator": "^13.7.0",
+    "zod": "^3.19.1"
+  },
+  "peerDependencies": {
+    "@gtnjob/core": "../backend/backend_app/core"
+  }
+}
